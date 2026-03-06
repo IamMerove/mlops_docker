@@ -34,6 +34,7 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/mon-api:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/mon-api:${{ github.sha }}
+          no-cache: true
 
       - name: Build and Push Frontend
         uses: docker/build-push-action@v5
