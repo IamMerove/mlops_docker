@@ -1,5 +1,5 @@
 from fastapi.testclient import TestClient
-from main import app  # Importe ton instance FastAPI
+from app_api.main import app  # Importe ton instance FastAPI
 
 client = TestClient(app)
 
