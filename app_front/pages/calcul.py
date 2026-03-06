@@ -12,9 +12,11 @@ with st.form("compute_form"):
 if submit:
     # L'URL de ton API (qui tourne sur le port 8000)
     api_url = f"http://backend:8000/compute/{operation}"
-    
+
     try:
-        response = requests.post("http://api_service:8000/compute/square", params={"value": number})
+        response = requests.post(
+            "http://api_service:8000/compute/square", params={"value": number}
+        )
         if response.status_code == 200:
             res_data = response.json()
             st.success(f"Résultat : {res_data['data']['result']}")

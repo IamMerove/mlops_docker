@@ -11,7 +11,7 @@ if st.button("Actualiser les données"):
             data = response.json()
             if data:
                 df = pd.DataFrame(data)
-                st.table(df) # Affiche un joli tableau
+                st.table(df)  # Affiche un joli tableau
             else:
                 st.info("La base de données est vide.")
         else:
