@@ -1,0 +1,43 @@
+services:
+  # --- BASE DE DONNÉES ---
+  db:
+    image: postgres:15
+    container_name: postgres_db_prod
+    restart: always
+    env_file: .env
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data
+    networks:
+      - api-db
+
+  # --- API (BACKEND) ---
+  backend:
+    image: lisnsepir/mon-api:latest  # <--- Remplace TON_PSEUDO
+    container_name: api_prod
+    restart: always
+    env_file: .env
+    depends_on:
+      - db
+    networks:
+      - front-api
+      - api-db
+
+  # --- STREAMLIT (FRONTEND) ---
+  frontend:
+    image: lisnsepir/mon-front:latest # <--- Remplace TON_PSEUDO
+    container_name: streamlit_prod
+    restart: always
+    ports:
+      - "8501:8501"
+    env_file: .env
+    depends_on:
+      - backend
+    networks:
+      - front-api
+
+networks:
+  front-api:
+  api-db:
+
+volumes:
+  postgres_data_prod:

@@ -1,0 +1,78 @@
+name: CI Standardisation Projet
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # --- JOB 1 : Vérification de la qualité du code (Linting) ---
+  linting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Ruff
+        run: pip install ruff
+
+      - name: Run Ruff Check (Erreurs & Imports)
+        run: ruff check .
+
+      - name: Run Ruff Format (Style de code)
+        run: ruff format --check .
+
+  # --- JOB 2 : Tests unitaires et d'intégration ---
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: admin
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: mlops_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          cd app_api
+          pip install .
+          pip install pytest httpx
+
+      - name: Run Tests
+        env:
+          DATABASE_URL: postgresql://admin:password@localhost:5432/mlops_db
+        run: |
+          uv run pytest tests/
+
+  # --- JOB 3 : Scan de sécurité (Secrets) ---
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Récupère tout l'historique pour Gitleaks
+      
+      - name: Gitleaks Scan
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
