@@ -60,9 +60,11 @@ jobs:
           
       - name: Install uv
         uses: astral-sh/setup-uv@v5
+
       - name: Run Tests
         env:
           DATABASE_URL: postgresql://admin:password@localhost:5432/mlops_db
+          PYTHON_PATH: app_api
         run: |
           uv run pytest tests/
 
