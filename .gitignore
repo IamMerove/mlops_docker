@@ -1,0 +1,19 @@
+# Environnement virtuel
+.venv/
+venv/
+ENV/
+
+# Variables d'environnement (TRÈS IMPORTANT)
+.env
+
+# Caches Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Bases de données locales (pour ne pas versionner SQLite)
+*.db
+*.sqlite3
+
+# Docker
+.dockerignore

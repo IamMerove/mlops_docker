@@ -1,0 +1,45 @@
+services:
+  # Service de base de données PostgreSQL
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: ${DB_USER:-admin}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-password}
+      POSTGRES_DB: ${DB_NAME:-mlops_db}
+    networks:
+      - api-db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data # Persistance des données
+
+  # Service Backend (FastAPI)
+  backend:
+    build: ./app_api
+    container_name: api_service
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://${DB_USER:-admin}:${DB_PASSWORD:-password}@db:5432/${DB_NAME:-mlops_db}
+    networks:
+      - front-api
+      - api-db
+    depends_on:
+      - db
+
+  # Service Frontend (Streamlit)
+  frontend:
+    build: ./app_front
+    container_name: streamlit_front
+    ports:
+      - "8501:8501"
+    networks:
+      - front-api # Le front ne voit pas le réseau api-db !
+    depends_on:
+      - backend
+
+networks:
+  front-api:
+  api-db:
+
+volumes:
+  postgres_data:
