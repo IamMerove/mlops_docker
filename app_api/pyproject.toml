@@ -19,8 +19,15 @@ dependencies = [
     "tree>=0.2.4",
 ]
 
-[tool.setuptools]
-packages = ["maths", "models", "modules"]
+[tool.setuptools.packages.find]
+where = ["."]
+exclude = [
+    "tests",
+    "tests.*",
+    "__pycache__",
+    "*.egg-info",
+    "*.pyc",
+]
 
 [tool.pytest.ini_options]
 # On force pytest à considérer le dossier app_api comme une source
