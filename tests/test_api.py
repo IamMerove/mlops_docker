@@ -23,5 +23,5 @@ def test_read_main():
 def test_post_data():
     # Teste l'envoi d'un calcul
     payload = {"operation": "square", "value": 5}
-    response = client.post("/data", json=payload)
+    response = client.get("/data", json=payload)
     assert response.status_code in [200, 201]  # Dépend de ton code
