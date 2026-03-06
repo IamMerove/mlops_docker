@@ -6,10 +6,12 @@ WORKDIR /app
 COPY . .
 
 # On installe (maintenant que maths est forcément là)
+RUN ls -R .
+RUN cat pyproject.toml
 RUN pip install --no-cache-dir .
 
 # On expose le port
 EXPOSE 8000
 
 # On lance
-CMD ["uvicorn", "maths.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
