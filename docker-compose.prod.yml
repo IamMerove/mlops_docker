@@ -12,7 +12,7 @@ services:
 
   # --- API (BACKEND) ---
   backend:
-    image: lisnsepir/mon-api:latest  # <--- Remplace TON_PSEUDO
+    image: lisnsepir/mon_api:latest  # <--- Remplace TON_PSEUDO
     container_name: api_prod
     restart: always
     env_file: .env
@@ -24,11 +24,13 @@ services:
 
   # --- STREAMLIT (FRONTEND) ---
   frontend:
-    image: lisnsepir/mon-front:latest # <--- Remplace TON_PSEUDO
+    image: lisnsepir/mon_front:latest # <--- Remplace TON_PSEUDO
     container_name: streamlit_prod
     restart: always
     ports:
       - "8501:8501"
+    environment:
+      - BACKEND_URL=http://backend:8000
     env_file: .env
     depends_on:
       - backend

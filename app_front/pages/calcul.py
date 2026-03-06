@@ -1,7 +1,10 @@
 import streamlit as st
 import requests
+import os
 
 st.title("🧮 Calculateur MLOps")
+
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 # Formulaire de saisie
 with st.form("compute_form"):
@@ -11,11 +14,11 @@ with st.form("compute_form"):
 
 if submit:
     # L'URL de ton API (qui tourne sur le port 8000)
-    api_url = f"http://backend:8000/compute/{operation}"
+    api_url = f"{BACKEND_URL}/compute/{operation}"
 
     try:
         response = requests.post(
-            "http://api_service:8000/compute/square", params={"value": number}
+            api_url, params={"value": number}
         )
         if response.status_code == 200:
             res_data = response.json()
