@@ -10,7 +10,9 @@ dependencies = [
     "pytest>=9.0.2",
     "sqlalchemy>=2.0.48",
     "uvicorn>=0.41.0",
-    "psycopg2-binary"
+    "psycopg2-binary",
+    "ruff>=0.15.5",
+    "tree>=0.2.4",
 ]
 
 [tool.pytest.ini_options]

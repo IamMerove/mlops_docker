@@ -9,5 +9,6 @@ def create_calculation(db: Session, operation: str, val: float, res: float):
     db.refresh(db_calc)
     return db_calc
 
+
 def get_all_calculations(db: Session):
     return db.query(Calculation).all()
