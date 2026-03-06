@@ -30,6 +30,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./app_api
+          file: ./app_api/Dockerfile
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/mon-api:latest
@@ -40,6 +41,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./app_front
+          file: ./app_api/Dockerfile
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/mon-front:latest
