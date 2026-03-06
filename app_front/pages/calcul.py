@@ -17,9 +17,7 @@ if submit:
     api_url = f"{BACKEND_URL}/compute/{operation}"
 
     try:
-        response = requests.post(
-            api_url, params={"value": number}
-        )
+        response = requests.post(api_url, params={"value": number})
         if response.status_code == 200:
             res_data = response.json()
             st.success(f"Résultat : {res_data['data']['result']}")
