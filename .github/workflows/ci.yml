@@ -64,7 +64,7 @@ jobs:
       - name: Run Tests
         env:
           DATABASE_URL: postgresql://admin:password@localhost:5432/mlops_db
-          PYTHON_PATH: app_api
+          PYTHON_PATH: .
         run: |
           uv run pytest tests/
 
