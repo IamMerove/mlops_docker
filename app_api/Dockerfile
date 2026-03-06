@@ -7,11 +7,14 @@ WORKDIR /app
 # mais ici on va faire classique avec pip pour Docker
 
 COPY pyproject.toml .
-RUN pip install --default-timeout=1000 --no-cache-dir .
 
 #Copie du code source
 
 COPY . .
+
+RUN pip install --default-timeout=1000 --no-cache-dir .
+
+
 
 #Exposition du port 8000 <--- UVICORN
 EXPOSE 8000
