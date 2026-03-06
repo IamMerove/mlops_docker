@@ -15,7 +15,11 @@ dependencies = [
     "tree>=0.2.4",
 ]
 
+[tool.setuptools]
+packages = ["maths", "models", "modules"]
+
 [tool.pytest.ini_options]
 # On force pytest à considérer le dossier app_api comme une source
 pythonpath = ["."] 
 testpaths = ["tests"]
+
