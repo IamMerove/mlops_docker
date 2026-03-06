@@ -14,6 +14,7 @@ RUN test -d maths && echo "OK : maths est un dossier" || echo "KO : maths n'est 
 RUN find . -type d -name maths -ls || echo "find ne trouve pas maths nulle part"
 RUN echo "=== Fin debug ===".
 
+RUN pip install --no-cache-dir .
 # On expose le port
 EXPOSE 8000
 
