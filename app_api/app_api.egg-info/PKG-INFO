@@ -12,3 +12,7 @@ Requires-Dist: uvicorn>=0.41.0
 Requires-Dist: psycopg2-binary
 Requires-Dist: ruff>=0.15.5
 Requires-Dist: tree>=0.2.4
+Requires-Dist: mkdocs>=1.6.1
+Requires-Dist: mkdocstrings>=1.0.3
+Requires-Dist: mkdocstrings-python>=2.0.3
+Requires-Dist: mkdocs-material>=9.7.5

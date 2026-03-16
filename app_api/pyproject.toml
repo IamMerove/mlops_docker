@@ -17,6 +17,10 @@ dependencies = [
     "psycopg2-binary",
     "ruff>=0.15.5",
     "tree>=0.2.4",
+    "mkdocs>=1.6.1",
+    "mkdocstrings>=1.0.3",
+    "mkdocstrings-python>=2.0.3",
+    "mkdocs-material>=9.7.5",
 ]
 
 [tool.setuptools.packages.find]
@@ -26,4 +30,12 @@ where = ["."]
 # On force pytest à considérer le dossier app_api comme une source
 pythonpath = ["."] 
 testpaths = ["tests"]
+
+[dependency-groups]
+dev = [
+    "mkdocs>=1.6.1",
+    "mkdocs-material>=9.7.5",
+    "mkdocstrings>=1.0.3",
+    "mkdocstrings-python>=2.0.3",
+]
 
