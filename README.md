@@ -16,12 +16,19 @@ Projet d'orchestration d'une API FastAPI (calculs et historique) et d'un dashboa
   - Calculateur + historique via appels API
 - **Infrastructure** : Docker + docker-compose (multi-services)
 
-## Documentation automatique
+## Documentation
 
-Documentation du code générée automatiquement avec Sphinx et hébergée sur Read the Docs :
+La documentation automatique du code (MkDocs + mkdocstrings) est disponible ici :
 
-→ **[Documentation complète](https://mlops-docker.readthedocs.io/en/latest/)**  
-→ [Source du code sur GitHub](https://github.com/lamMerove/mlops_docker/tree/main/app_api)
+→ [https://iammerove.github.io/mlops_docker/](https://iammerove.github.io/mlops_docker/)
+
+- Accueil → présentation du projet
+- Référence API → autodoc générée à partir des docstrings
+
+Localement :  
+```bash
+cd app_api
+uv run mkdocs serve
 
 ## Prérequis
 
