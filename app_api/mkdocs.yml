@@ -1,0 +1,16 @@
+site_name: Documentation MLOps Docker
+
+theme:
+  name: material
+
+nav:
+  - Accueil: index.md
+  - Référence API: reference.md
+
+plugins:
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            show_source: true
