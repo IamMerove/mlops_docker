@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -19,8 +19,8 @@ dependencies = [
     "tree>=0.2.4",
 ]
 
-[tool.setuptools]
-packages = ["maths", "models", "modules"]
+[tool.setuptools.packages.find]
+where = ["."]
 
 [tool.pytest.ini_options]
 # On force pytest à considérer le dossier app_api comme une source
