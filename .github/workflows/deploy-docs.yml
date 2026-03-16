@@ -1,11 +1,11 @@
-name: Deploy MkDocs to GitHub Pages
+name: Deploy MkDocs → GitHub Pages
 
 on:
   push:
-    branches: [develop, main]          # adapte selon tes branches
+    branches: [develop, main]
   pull_request:
     branches: [develop, main]
-  workflow_dispatch:                    # pour tester manuellement
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -21,40 +21,40 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v3
         with:
-          python-version: '3.11'         
-      - name: Install uv
-        uses: astral-sh/setup-uv@v3     
+          enable-cache: true
+          cache-dependency-glob: ""   # pas de cache deps car on installe à la main
 
-      - name: Install MkDocs & plugins only
+      - name: Install MkDocs + plugins (isolé, sans pyproject.toml)
         run: |
-          uv venv .venv-docs              # venv dédié (optionnel mais propre)
+          uv venv .venv-docs
           source .venv-docs/bin/activate
-          uv pip install mkdocs mkdocs-material "mkdocstrings[python]"
+          uv pip install --upgrade pip
+          uv pip install mkdocs mkdocs-material mkdocstrings[python]
 
-      - name: Build MkDocs site
+      - name: Build MkDocs
         run: |
-          source .venv-docs/bin/activate   # si tu as créé le venv
-          mkdocs build --strict            # --strict pour catcher les erreurs tôt
+          source .venv-docs/bin/activate
+          mkdocs build --strict --verbose
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: site/                      # dossier par défaut de mkdocs build
+          path: ./site
 
   deploy:
-    needs: build
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    needs: build
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
     steps:
-      - name: Deploy to GitHub Pages
+      - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
