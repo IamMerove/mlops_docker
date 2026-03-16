@@ -12,7 +12,7 @@ services:
 
   # --- API (BACKEND) ---
   backend:
-    image: lisnsepir/mon_api:latest  # <--- Remplace TON_PSEUDO
+    image: lisnsepir/mon_api:latest  
     container_name: api_prod
     restart: always
     env_file: .env
@@ -24,7 +24,7 @@ services:
 
   # --- STREAMLIT (FRONTEND) ---
   frontend:
-    image: lisnsepir/mon_front:latest # <--- Remplace TON_PSEUDO
+    image: lisnsepir/mon_front:latest 
     container_name: streamlit_prod
     restart: always
     ports:
