@@ -2,14 +2,10 @@ name: Deploy MkDocs to GitHub Pages
 
 on:
   push:
-    branches:
-      - main          # ← change en develop si tu préfères merger sur develop
-      - develop       # ou les deux si tu veux tester sur develop
-  pull_request:     # optionnel : build sans deploy sur PR pour valider
-    branches:
-      - main
-      - develop
-  workflow_dispatch:  # pour pouvoir lancer manuellement depuis GitHub
+    branches: [develop, main]          # adapte selon tes branches
+  pull_request:
+    branches: [develop, main]
+  workflow_dispatch:                    # pour tester manuellement
 
 permissions:
   contents: read
@@ -23,34 +19,33 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0   # important si tu utilises git dans mkdocs
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: '3.11'         
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3     
 
-      - name: Install uv (si tu utilises uv pour les deps)
+      - name: Install MkDocs & plugins only
         run: |
-          curl -LsSf https://astral.sh/uv/install.sh | sh
-          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+          uv venv .venv-docs              # venv dédié (optionnel mais propre)
+          source .venv-docs/bin/activate
+          uv pip install mkdocs mkdocs-material "mkdocstrings[python]"
 
-      - name: Install dependencies
+      - name: Build MkDocs site
         run: |
-          uv sync --dev   # ou uv pip install -r requirements.txt si tu as un fichier
-          # Si pas de uv : pip install mkdocs mkdocs-material mkdocstrings[python]
-
-      - name: Build MkDocs
-        run: uv run mkdocs build   # ou juste mkdocs build si pas uv
+          source .venv-docs/bin/activate   # si tu as créé le venv
+          mkdocs build --strict            # --strict pour catcher les erreurs tôt
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: site/
+          path: site/                      # dossier par défaut de mkdocs build
 
   deploy:
     needs: build

@@ -20,7 +20,7 @@ Projet d'orchestration d'une API FastAPI (calculs et historique) et d'un dashboa
 
 Documentation du code générée automatiquement avec Sphinx et hébergée sur Read the Docs :
 
-→ **[Documentation complète (Sphinx)](https://mlops-docker.readthedocs.io/en/latest/)**  
+→ **[Documentation complète](https://mlops-docker.readthedocs.io/en/latest/)**  
 → [Source du code sur GitHub](https://github.com/lamMerove/mlops_docker/tree/main/app_api)
 
 ## Prérequis
