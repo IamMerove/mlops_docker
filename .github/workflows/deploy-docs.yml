@@ -1,4 +1,4 @@
-name: Deploy MkDocs → GitHub Pages
+name: Deploy MkDocs to GitHub Pages
 
 on:
   push:
@@ -24,37 +24,39 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'   # ou 3.12 selon tes besoins
+
       - name: Setup uv
         uses: astral-sh/setup-uv@v3
-        with:
-          enable-cache: true
-          cache-dependency-glob: ""   # pas de cache deps car on installe à la main
 
-      - name: Install MkDocs + plugins (isolé, sans pyproject.toml)
+      - name: Install MkDocs tools (isolé)
         run: |
           uv venv .venv-docs
           source .venv-docs/bin/activate
-          uv pip install --upgrade pip
-          uv pip install mkdocs mkdocs-material mkdocstrings[python]
+          uv pip install mkdocs mkdocs-material "mkdocstrings[python]"
 
-      - name: Build MkDocs
+      - name: Build MkDocs from app_api/
+        working-directory: ./app_api
         run: |
-          source .venv-docs/bin/activate
+          source ../.venv-docs/bin/activate   # active le venv créé à la racine
           mkdocs build --strict --verbose
 
-      - name: Upload artifact
+      - name: Upload artifact (le site/ est créé dans app_api/site/)
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./site
+          path: ./app_api/site
 
   deploy:
-    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     needs: build
-    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
     steps:
-      - name: Deploy
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
